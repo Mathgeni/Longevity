@@ -1,7 +1,7 @@
-from django.urls import path
+from django.urls import path, include
 from rest_framework.authtoken.views import obtain_auth_token
 
-from api.views.users import UserRegisterView, UserLoginView, VerifyOTP, UserView
+from api.views.users import UserRegisterView, UserLoginView, VerifyOTP, UserView, UserDeleteView
 
 app_name = 'api'
 
@@ -11,5 +11,6 @@ urlpatterns = [
     path('login/', UserLoginView.as_view(), name='login'),
     path('verify/', VerifyOTP.as_view(), name='verify'),
     path('user/', UserView.as_view(), name='user'),
+    path('delete/', UserDeleteView.as_view(), name='delete'),
 ]
 

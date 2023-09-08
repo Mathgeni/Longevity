@@ -100,6 +100,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Django Rest
+
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
@@ -110,6 +112,19 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ]
 }
+
+# Redis
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -160,3 +175,9 @@ EMAIL_HOST_USER = 'testcaselongevity@gmail.com'
 EMAIL_HOST_PASSWORD = 'twjwpovrndiuahij'
 EMAIL_USE_TLS = True
 EMAIL_USE_SLL = False
+
+
+# Celery
+
+CELERY_BROKER_URL = 'redis://127.0.0.1:7379'
+CELERY_RESUL_BACKEND = 'redis://127.0.0.1:7379'

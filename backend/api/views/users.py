@@ -1,17 +1,18 @@
 from rest_framework.views import APIView
+from rest_framework.generics import RetrieveAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_201_CREATED
+from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_201_CREATED, HTTP_204_NO_CONTENT
 from django.contrib.auth import login, authenticate
+from api.models.users import User
 
-
-from api.serializers.users import UserSerializer, UserLoginSerializer, VerifyOTPSerializer
+from api.serializers.users import UserCreateSerializer, UserLoginSerializer, VerifyOTPSerializer, UserDeleteSerializer
 
 
 class UserRegisterView(APIView):
 
     def post(self, request):
-        serializer = UserSerializer(data=request.data)
+        serializer = UserCreateSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             clean_data = serializer.validated_data
             user = serializer.create(clean_data)
@@ -49,8 +50,16 @@ class UserView(APIView):
 
     def get(self, request):
         user = request.user
-        response = {
-            'email': user.email,
-            'joined': user.joined,
-        }
-        return Response(response, status=HTTP_200_OK)
+        return Response({'email': user.email}, status=HTTP_200_OK)
+
+
+class UserDeleteView(APIView):
+    permission_classes = [IsAuthenticated, ]
+
+    def delete(self, request):
+        user = request.user
+        serializer = UserDeleteSerializer(data=request.data)
+        if serializer.is_valid():
+            user.delete()
+            return Response('User deleted', status=HTTP_204_NO_CONTENT)
+        return Response('Is not valid', status=HTTP_400_BAD_REQUEST)
