@@ -21,6 +21,7 @@ env = environ.Env(
     REDIS_HOST=str,
     REDIS_PORT=str,
 
+    DATA_BASE_URL=(str, None),
     DATA_BASE_NAME=str,
     DATA_BASE_USER=str,
     DATA_BASE_PASSWORD=str,
@@ -117,6 +118,10 @@ DATABASES = {
 
     }
 }
+
+DATA_BASE_URL = env('DATA_BASE_URL')
+if DATA_BASE_URL:
+    DATABASES['default'].update({'URL': DATA_BASE_URL})
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
