@@ -1,10 +1,9 @@
-from datetime import timedelta
 import random
+from datetime import timedelta
 
-from rest_framework import serializers
-from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate, get_user_model
 from django.utils import timezone
-from django.contrib.auth import login, authenticate
+from rest_framework import serializers
 
 from api.tasks import send_otp
 

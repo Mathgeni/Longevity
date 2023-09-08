@@ -1,8 +1,8 @@
+from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.core.validators import validate_email
 from django.db import models
 from django.utils import timezone
-from django.conf import settings
-from django.core.validators import validate_email
 
 from api.managers.users import CustomUserManager
 
